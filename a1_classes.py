@@ -42,8 +42,12 @@ def main():
                 print(f"{is_required}{i + 1: >{number_alignment}}. {books[i].title: <{title_alignment+1}} by {books[i].author: <{author_alignment+1}} {books[i].page_number} pages")
             print(f"You need to read {BookCollection().get_required_pages(books)} pages in {books_to_read} books.")
         elif choice == "A":
-            new_book = BookCollection().add_book()
-            books.append(new_book)
+            book_name = validate_string("Title: ")
+            book_author = validate_string("Author: ")
+            book_pages = validate_int("Pages: ")
+            new_book = Book(book_name, book_author, book_pages, "r")
+            BookCollection().add_book(new_book)
+
             print(f"{new_book.title} by {new_book.author}, ({new_book.page_number}) added to Reading Tracker")
         elif choice == "M":
             required_books = [book for book in books if book.is_required == REQUIRED]

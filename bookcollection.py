@@ -1,14 +1,22 @@
 """..."""
-from book import Book
+from operator import attrgetter
 
+from book import Book
+import csv
+import operator
 
 # Create your BookCollection class in this file
 
 
 class BookCollection:
     """..."""
-    books = []
-    required_pages = 0
+    def __init__(self, books=[], required_pages=0):
+        self.books = books
+        self.required_pages = required_pages
+
+    def __repr__(self):
+        """Represent list as string values"""
+        return str(self.books)
 
     def load_books(self, file_name):
         with open(file_name, "r", encoding="utf-8-sig") as in_file:
@@ -18,17 +26,15 @@ class BookCollection:
                 self.books.append(Book(items[0], items[1], items[2], items[3]))
         return self.books
 
-    def save_books(self, file_name):
-        output_file = open(file_name, "w")
-        for book in self.books:
-            print(f"{book.title},{book.author},{book.page_number},{book.is_required}", file=output_file)
-        output_file.close()
+    def save_file(self, file):
+        with open(file, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(self.books)
+        print("Your file has been updated and saved!")
 
-    def add_book(self):
-        book_name = input("Title: ")
-        book_author = input("Author: ")
-        book_pages = int(input("Pages: "))
-        return Book(book_name, book_author, book_pages, "r")
+    def add_book(self, book):
+        self.books.append(book)
+        return f"{book.title} by {book.author}, ({book.page_number}) added to Reading Tracker"
 
     def get_required_pages(self, book_list):
         for book in book_list:
@@ -36,7 +42,8 @@ class BookCollection:
                 self.required_pages += int(book.page_number)
         return self.required_pages
 
-    def sort(self, other):
+    def sort(self, keyword):
+        return self.books.sort(key=attrgetter(keyword))
 
 
 

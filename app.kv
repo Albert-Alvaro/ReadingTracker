@@ -1,2 +1,97 @@
-# Create your Kivy layout in the kv language here
 BoxLayout:
+    id: main_box
+    orientation: 'horizontal'
+    Popup:
+        id: validation_popup1
+        # uncomment the line below for a popup that's not full screen/window
+        size_hint: (.7, .7)
+        title: "Invalid Input"
+        on_parent:
+            # Make popup disappear immediately
+            if self.parent == main_box: self.parent.remove_widget(self)
+        BoxLayout:
+            # layout for input fields and action buttons
+            id: inputs
+            orientation: 'vertical'
+            Label:
+                text: 'Invalid Input'
+    Popup:
+        id: validation_popup2
+        # uncomment the line below for a popup that's not full screen/window
+        size_hint: (.7, .7)
+        title: "Invalid Input"
+        on_parent:
+            # Make popup disappear immediately
+            if self.parent == main_box: self.parent.remove_widget(self)
+        BoxLayout:
+            # layout for input fields and action buttons
+            id: inputs
+            orientation: 'vertical'
+            Label:
+                text: 'Invalid Input'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Sort By: '
+            size_hint_y: None
+            height: '48dp'
+        Spinner:
+            id: sort_selection_spinner
+            text: app.current_by_sort
+            values: app.by_sort
+            on_text: app.change_spinner_selection(self.text)
+        Label:
+            text: 'Add New Book...'
+            size_hint_y: None
+            height: '48dp'
+        Label:
+            text: 'Book Title: '
+            size_hint_y: None
+            height: '48dp'
+        TextInput:
+            id: added_title
+            value: ''
+            size_hint_y: None
+            height: '48dp'
+            # the next two lines make it so that pressing Tab moves the cursor
+            # to the next input field instead of entering the Tab character
+            multiline: False
+            write_tab: False
+        Label:
+            text: 'Author: '
+            size_hint_y: None
+            height: '48dp'
+        TextInput:
+            id: added_author
+            value: ''
+            size_hint_y: None
+            height: '48dp'
+            multiline: False
+            write_tab: False
+        Label:
+            text: 'Page Number: '
+            size_hint_y: None
+            height: '48dp'
+        TextInput:
+            id: added_pages
+            value: ''
+            size_hint_y: None
+            height: '48dp'
+            multiline: False
+            write_tab: False
+        Button:
+            text: 'Add Book'
+            on_release: app.press_add(added_title.text, added_author.text, added_pages.text)
+        Button:
+            id: btnClear
+            text: 'Clear Display'
+            on_press: status.clear_widgets()
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            id: entries_box
+            orientation: 'vertical'
+        Label:
+            id: status
+            size_hint_y: 0.1
+            text: app.status_text
