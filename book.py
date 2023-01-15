@@ -12,6 +12,9 @@ class Book:
         self.page_number = page_number
         self.is_required = is_required
 
+    def __str__(self):
+        return f"{self.title} by {self.author} {self.page_number} pages"
+
     def mark_required(self):
         if self.is_required == "r":
             return True

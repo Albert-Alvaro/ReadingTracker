@@ -20,7 +20,7 @@ def run_tests():
 
     # Test adding a new Book with values
     print("Test adding new book:")
-    book_collection.add_book(Book("War and Peace", "William Shakespeare", 999, False))
+    book_collection.add_book(Book("War and Peace", "William Shakespeare", 999, "r"))
     print(book_collection)
 
     # Test sorting books
