@@ -1,34 +1,6 @@
 BoxLayout:
     id: main_box
     orientation: 'horizontal'
-    Popup:
-        id: validation_popup1
-        # uncomment the line below for a popup that's not full screen/window
-        size_hint: (.7, .7)
-        title: "Invalid Input"
-        on_parent:
-            # Make popup disappear immediately
-            if self.parent == main_box: self.parent.remove_widget(self)
-        BoxLayout:
-            # layout for input fields and action buttons
-            id: inputs
-            orientation: 'vertical'
-            Label:
-                text: 'Invalid Input'
-    Popup:
-        id: validation_popup2
-        # uncomment the line below for a popup that's not full screen/window
-        size_hint: (.7, .7)
-        title: "Invalid Input"
-        on_parent:
-            # Make popup disappear immediately
-            if self.parent == main_box: self.parent.remove_widget(self)
-        BoxLayout:
-            # layout for input fields and action buttons
-            id: inputs
-            orientation: 'vertical'
-            Label:
-                text: 'Invalid Input'
     BoxLayout:
         orientation: 'vertical'
         Label:
@@ -85,7 +57,8 @@ BoxLayout:
         Button:
             id: btnClear
             text: 'Clear Display'
-            on_press: status.clear_widgets()
+            on_press: app.clear_fields()
+            on_press: app.status_text = ""
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:

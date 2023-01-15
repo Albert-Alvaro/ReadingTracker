@@ -7,10 +7,10 @@
 class Book:
     """..."""
     def __init__(self, title="", author="", page_number=0, is_required=""):
-        self.title = title
-        self.author = author
-        self.page_number = page_number
-        self.is_required = is_required
+        self.title = title.title()
+        self.author = author.title()
+        self.page_number = int(page_number)
+        self.is_required = str(is_required)
 
     def __str__(self):
         return f"{self.title} by {self.author} {self.page_number} pages"
@@ -24,5 +24,7 @@ class Book:
             return False
 
     def is_long(self):
-        if self.page_number >= 500:
-            return "Long"
+        if int(self.page_number) >= 500:
+            return True
+        else:
+            return False
