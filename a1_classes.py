@@ -3,8 +3,8 @@ Name: Albert Alvaro
 Date started: 23 December 2022
 GitHub URL: https://github.com/JCUS-CP1404/cp1404-reading-tracker---assignment-1-Albert-Alvaro
 
-Time estimate : 1 Hour
-Time taken : 2 Hours
+Time estimate : 5 Hour
+Time taken : 10 Hours
 """
 from book import Book
 from bookcollection import BookCollection
