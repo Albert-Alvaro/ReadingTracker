@@ -60,7 +60,6 @@ class ReadingTrackerApp(App):
             else:
                 new_book = Book(added_title, added_author, int(added_pages), REQUIRED)
                 BookCollection().add_book(new_book)
-                self.books.append(new_book)
                 self.clear_fields()
                 self.root.ids.entries_box.clear_widgets()
                 self.status_text = f"{new_book.title} by {new_book.author} has been added"
@@ -72,7 +71,7 @@ class ReadingTrackerApp(App):
             self.clear_fields()
 
     def create_widgets(self):
-        for book in self.books:
+        for book in BookCollection().books:
             temp_button = Button(text=str(book))
             temp_button.bind(on_release=self.press_book)
             temp_button.book = book
@@ -121,7 +120,7 @@ class ReadingTrackerApp(App):
 
     def press_quit(self):
         print(self.books)
-        BookCollection().save_file('books.csv', self.books)
+        BookCollection().save_file('books.csv', BookCollection().books)
         ReadingTrackerApp().stop()
 
 
