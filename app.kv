@@ -59,6 +59,10 @@ BoxLayout:
             text: 'Clear Display'
             on_press: app.clear_fields()
             on_press: app.status_text = ""
+        Button:
+            id: quit
+            text: 'Quit'
+            on_press: app.press_quit()
     BoxLayout:
         orientation: 'vertical'
         Label:

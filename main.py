@@ -60,6 +60,7 @@ class ReadingTrackerApp(App):
             else:
                 new_book = Book(added_title, added_author, int(added_pages), REQUIRED)
                 BookCollection().add_book(new_book)
+                self.books.append(new_book)
                 self.clear_fields()
                 self.root.ids.entries_box.clear_widgets()
                 self.status_text = f"{new_book.title} by {new_book.author} has been added"
@@ -117,6 +118,11 @@ class ReadingTrackerApp(App):
         BookCollection().sort(SPINNER_OPTIONS_TO_KEYWORD[self.current_by_sort])
         self.root.ids.entries_box.clear_widgets()
         self.create_widgets()
+
+    def press_quit(self):
+        print(self.books)
+        BookCollection().save_file('books.csv', self.books)
+        ReadingTrackerApp().stop()
 
 
 if __name__ == '__main__':

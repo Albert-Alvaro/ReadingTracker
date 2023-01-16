@@ -15,18 +15,22 @@ class BookCollection:
         self.required_pages = required_pages
 
     def load_books(self, file_name):
-        with open(file_name, "r", encoding="utf-8-sig") as in_file:
-            data = in_file.readlines()
-            for line in data:
-                items = line.strip().split(",")
-                self.books.append(Book(items[0], items[1], items[2], items[3]))
+        try:
+            with open(file_name, "r", encoding="utf-8-sig") as in_file:
+                data = in_file.readlines()
+                for line in data:
+                    items = line.strip().split(",")
+                    self.books.append(Book(items[0], items[1], items[2], items[3]))
+                return self.books
+        except FileNotFoundError:
+            self.books = []
             return self.books
 
     def save_file(self, file, book_list):
-        with open(file, 'w', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerows(book_list)
-        print("Your file has been updated and saved!")
+        output_file = open(file, "w")
+        for book in book_list:
+            print(f"{book.title},{book.author},{book.page_number},{book.is_required}", file=output_file)
+        output_file.close()
 
     def add_book(self, book):
         self.books.append(book)
