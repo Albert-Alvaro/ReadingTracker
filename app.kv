@@ -61,6 +61,10 @@ BoxLayout:
             on_press: app.status_text = ""
     BoxLayout:
         orientation: 'vertical'
+        Label:
+            id: status_top
+            size_hint_y: 0.1
+            text: app.status_text_top
         BoxLayout:
             id: entries_box
             orientation: 'vertical'

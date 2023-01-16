@@ -11,7 +11,6 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty, ListProperty
 from kivy.uix.button import Button
 from book import Book
-from operator import attrgetter
 from bookcollection import BookCollection
 
 COMPLETED = "c"
@@ -29,6 +28,7 @@ class ReadingTrackerApp(App):
     status_text = StringProperty()
     by_sort = ListProperty()
     current_by_sort = StringProperty()
+    status_text_top = StringProperty()
 
     def __init__(self, **kwargs):
         """Construct main app"""
@@ -41,7 +41,8 @@ class ReadingTrackerApp(App):
         self.by_sort = sorted(SPINNER_OPTIONS_TO_KEYWORD.keys())
         self.current_by_sort = self.by_sort[0]
         self.root = Builder.load_file('app.kv')
-        self.books.sort(key=attrgetter('author'))
+        BookCollection().sort('author')
+        self.status_text_top = f"Pages to read: {BookCollection().get_required_pages(self.books)}"
         self.create_widgets()
         return self.root
 
@@ -58,11 +59,12 @@ class ReadingTrackerApp(App):
                 self.clear_fields()
             else:
                 new_book = Book(added_title, added_author, int(added_pages), REQUIRED)
-                self.books.append(new_book)
+                BookCollection().add_book(new_book)
                 self.clear_fields()
                 self.root.ids.entries_box.clear_widgets()
                 self.status_text = f"{new_book.title} by {new_book.author} has been added"
-                self.books.sort(key=attrgetter(SPINNER_OPTIONS_TO_KEYWORD[self.current_by_sort]))
+                BookCollection().sort(SPINNER_OPTIONS_TO_KEYWORD[self.current_by_sort])
+                self.status_text_top = f"Pages to read: {BookCollection().get_required_pages(self.books)}"
                 self.create_widgets()
         except ValueError:
             self.status_text = f"Please enter a valid number"
@@ -98,6 +100,7 @@ class ReadingTrackerApp(App):
                 status = f"You completed {book.title}."
         self.root.ids.entries_box.clear_widgets()
         self.status_text = f"{status}"
+        self.status_text_top = f"Pages to read: {BookCollection().get_required_pages(self.books)}"
         self.create_widgets()
 
     def clear_fields(self):
@@ -108,9 +111,10 @@ class ReadingTrackerApp(App):
     def change_spinner_selection(self, new_sort_selection):
         self.current_by_sort = new_sort_selection
         self.update_selection()
+        self.status_text_top = f"Pages to read: {BookCollection().get_required_pages(self.books)}"
 
     def update_selection(self):
-        self.books.sort(key=attrgetter(SPINNER_OPTIONS_TO_KEYWORD[self.current_by_sort]))
+        BookCollection().sort(SPINNER_OPTIONS_TO_KEYWORD[self.current_by_sort])
         self.root.ids.entries_box.clear_widgets()
         self.create_widgets()
 
